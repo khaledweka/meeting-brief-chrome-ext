@@ -1,4 +1,4 @@
-# Meeting Brief (Chrome / Edge)
+# MeetBrief Local (Chrome / Edge)
 
 Record Google Meet tab audio (optionally video), save locally, and transcribe with speaker labels using a **local** Whisper + pyannote server.
 

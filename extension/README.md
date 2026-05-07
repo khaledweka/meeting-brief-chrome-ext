@@ -1,4 +1,4 @@
-# Meeting Brief — browser extension
+# MeetBrief Local — browser extension
 
 ## Load this in Chrome / Edge
 

@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Meeting Brief — Meet recorder & transcript",
+  "name": "MeetBrief Local — Meet recorder & transcript",
   "version": "1.0.0",
   "description": "Record Google Meet tab audio/video locally and transcribe with speaker labels via a local Whisper server.",
   "permissions": [
@@ -18,7 +18,7 @@
   ],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "Meeting Brief"
+    "default_title": "MeetBrief Local"
   },
   "background": {
     "service_worker": "background.js",
