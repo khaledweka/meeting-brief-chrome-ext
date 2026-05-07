@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Meeting Brief — Microphone Setup</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #0f1419;
+        --panel: #1a2332;
+        --border: #2a3648;
+        --text: #e8eef7;
+        --muted: #8b9bb4;
+        --accent: #3b82f6;
+        --ok: #22c55e;
+        --danger: #ef4444;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0; padding: 40px;
+        background: var(--bg); color: var(--text);
+        font-family: "Segoe UI", system-ui, sans-serif;
+        display: flex; justify-content: center;
+      }
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 24px;
+        max-width: 500px;
+        width: 100%;
+      }
+      h1 { margin: 0 0 6px; font-size: 20px; }
+      .sub { color: var(--muted); margin: 0 0 20px; font-size: 13px; }
+      .step { margin-bottom: 18px; }
+      .step-title { font-weight: 600; margin-bottom: 8px; }
+      label { display: block; color: var(--muted); margin-bottom: 6px; font-size: 13px; }
+      select {
+        width: 100%; padding: 8px 10px;
+        background: #111827; color: var(--text);
+        border: 1px solid var(--border); border-radius: 8px;
+        font-size: 14px;
+      }
+      .btn {
+        border: none; border-radius: 8px; padding: 10px 18px;
+        font-weight: 600; font-size: 14px; cursor: pointer;
+        color: #fff;
+      }
+      .btn-primary { background: linear-gradient(180deg, #2563eb, #1d4ed8); }
+      .btn-ok { background: linear-gradient(180deg, #16a34a, #15803d); }
+      .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+      .status { margin-top: 12px; padding: 10px; border-radius: 8px; font-size: 13px; }
+      .status.ok { background: #052e16; color: var(--ok); border: 1px solid #166534; }
+      .status.err { background: #2a0a0a; color: #fca5a5; border: 1px solid #991b1b; }
+      .status.info { background: #172554; color: #93c5fd; border: 1px solid #1e40af; }
+      .actions { display: flex; gap: 10px; margin-top: 16px; }
+      .hidden { display: none; }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>Meeting Brief — Microphone Setup</h1>
+      <p class="sub">Grant microphone access so the extension can record your voice during meetings.</p>
+
+      <div class="step">
+        <div class="step-title">Step 1: Allow microphone access</div>
+        <button id="btnGrant" class="btn btn-primary">Allow microphone</button>
+        <div id="grantStatus" class="status hidden"></div>
+      </div>
+
+      <div id="step2" class="step hidden">
+        <div class="step-title">Step 2: Select your microphone</div>
+        <label for="micList">Choose the microphone to use for recording:</label>
+        <select id="micList"></select>
+        <div class="actions">
+          <button id="btnSave" class="btn btn-ok">Save &amp; close</button>
+        </div>
+        <div id="saveStatus" class="status hidden"></div>
+      </div>
+    </div>
+    <script type="module" src="./src/setup.ts"></script>
+  </body>
+</html>

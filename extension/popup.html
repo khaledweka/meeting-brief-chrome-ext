@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Meeting Brief</title>
+    <link rel="stylesheet" href="./src/popup/popup.css" />
+  </head>
+  <body>
+    <header class="header">
+      <h1>Meeting Brief</h1>
+      <p class="sub">Google Meet capture & local transcript</p>
+    </header>
+
+    <section class="card" id="statusCard">
+      <div class="row">
+        <span class="label">Meet tab</span>
+        <span id="meetStatus" class="value muted">Checking…</span>
+      </div>
+      <div class="row">
+        <span class="label">In call</span>
+        <span id="callStatus" class="value muted">—</span>
+      </div>
+      <div class="row">
+        <span class="label">Transcription server</span>
+        <span id="serverStatus" class="value muted">Checking…</span>
+      </div>
+      <div class="row">
+        <span class="label">Recording</span>
+        <span id="recStatus" class="value muted">Idle</span>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="row">
+        <label class="label" for="micSelect">Microphone</label>
+        <select id="micSelect" class="mic-select">
+          <option value="">None (tab audio only)</option>
+        </select>
+      </div>
+      <button type="button" id="btnSetupMic" class="btn ghost sm hidden">Setup microphone access</button>
+      <label class="toggle">
+        <input type="checkbox" id="includeMic" checked />
+        <span>Record my microphone (your voice)</span>
+      </label>
+      <div class="row">
+        <label class="label" for="langSelect">Transcript language</label>
+        <select id="langSelect" class="mic-select">
+          <option value="">Auto-detect</option>
+          <option value="ar">Arabic</option>
+          <option value="en">English</option>
+          <option value="ar">Arabic + English (hint: Arabic)</option>
+        </select>
+      </div>
+      <div class="row">
+        <label class="label" for="providerSelect">Transcription engine</label>
+        <select id="providerSelect" class="mic-select">
+          <option value="whisper-local">Whisper (local, offline)</option>
+          <option value="lmstudio">LM Studio — Whisper + LLM correction (local)</option>
+          <option value="gemini:gemini-2.5-flash">Gemini 2.5 Flash (free)</option>
+          <option value="gemini:gemini-2.0-flash">Gemini 2.0 Flash (free)</option>
+          <option value="gemini:gemini-2.0-flash-lite">Gemini 2.0 Flash Lite (free)</option>
+          <option value="gemini:gemini-1.5-flash">Gemini 1.5 Flash (free)</option>
+          <option value="gemini:gemini-1.5-pro">Gemini 1.5 Pro (free, slower)</option>
+          <option value="openai">OpenAI Whisper API (paid)</option>
+        </select>
+      </div>
+      <div id="apiKeyRow" class="hidden">
+        <label class="label" for="apiKeyInput">API Key</label>
+        <div class="row">
+          <input type="password" id="apiKeyInput" class="api-key-input" placeholder="Paste your API key" />
+          <button type="button" id="btnSaveKey" class="btn ghost sm">Save</button>
+        </div>
+        <p id="apiKeyHint" class="muted" style="margin-top:4px"></p>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="includeVideo" />
+        <span>Include video (large file; prompts download when stopped)</span>
+      </label>
+      <div class="actions">
+        <button type="button" id="btnStart" class="btn primary">Start recording</button>
+        <button type="button" id="btnStop" class="btn danger" disabled>Stop recording</button>
+      </div>
+      <p id="actionError" class="error" hidden></p>
+    </section>
+
+    <section class="card">
+      <div class="sectionHead">
+        <h2>Recordings</h2>
+        <button type="button" id="btnRefresh" class="btn ghost sm">Refresh</button>
+      </div>
+      <ul id="recordingsList" class="list"></ul>
+      <p id="emptyRecordings" class="muted">No recordings yet.</p>
+    </section>
+
+    <section class="card" id="transcriptCard" hidden>
+      <div class="sectionHead">
+        <h2>Transcript</h2>
+        <button type="button" id="btnCloseTranscript" class="btn ghost sm">Close</button>
+      </div>
+      <pre id="transcriptBody" class="transcript"></pre>
+    </section>
+
+    <script type="module" src="./src/popup/popup.ts"></script>
+  </body>
+</html>

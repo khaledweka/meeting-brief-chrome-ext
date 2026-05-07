@@ -1,0 +1,34 @@
+{
+  "manifest_version": 3,
+  "name": "Meeting Brief — Meet recorder & transcript",
+  "version": "1.0.0",
+  "description": "Record Google Meet tab audio/video locally and transcribe with speaker labels via a local Whisper server.",
+  "permissions": [
+    "tabCapture",
+    "activeTab",
+    "storage",
+    "offscreen",
+    "downloads",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://meet.google.com/*",
+    "http://localhost/*",
+    "http://127.0.0.1/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Meeting Brief"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://meet.google.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

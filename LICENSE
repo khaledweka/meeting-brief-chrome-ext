@@ -1,0 +1,32 @@
+# Meeting Brief Personal Local Use License v1.0
+
+Copyright (c) 2026 Meeting Brief contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to use
+the Software, subject to the following conditions:
+
+1. Personal use only.
+   You may use, copy, and modify the Software only for your own personal use.
+
+2. Local execution only.
+   You may run the Software only on systems you control directly.
+   You may not provide the Software as a hosted, remote, cloud, SaaS, API, or
+   shared service for third parties.
+
+3. No commercial use.
+   You may not sell, license, sublicense, rent, lease, monetize, or otherwise
+   use the Software for commercial purposes.
+
+4. Source redistribution restrictions.
+   If you share source copies or modifications, you must keep this license and
+   clearly mark your changes. Shared copies remain subject to this license.
+
+5. No warranty.
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER
+   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING
+   FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+   DEALINGS IN THE SOFTWARE.
