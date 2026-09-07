@@ -8,8 +8,13 @@
   </head>
   <body>
     <header class="header">
-      <h1>MeetBrief Local</h1>
-      <p class="sub">Google Meet capture & local transcript</p>
+      <div class="header-row">
+        <div>
+          <h1>MeetBrief Local</h1>
+          <p class="sub">Google Meet capture & local transcript</p>
+        </div>
+        <button type="button" id="btnOptions" class="btn ghost sm" title="Options">Settings</button>
+      </div>
     </header>
 
     <section class="card" id="statusCard">
@@ -49,7 +54,6 @@
           <option value="">Auto-detect</option>
           <option value="ar">Arabic</option>
           <option value="en">English</option>
-          <option value="ar">Arabic + English (hint: Arabic)</option>
         </select>
       </div>
       <div class="row">
@@ -77,11 +81,16 @@
         <input type="checkbox" id="includeVideo" />
         <span>Include video (large file; prompts download when stopped)</span>
       </label>
+      <label class="toggle">
+        <input type="checkbox" id="autoRecord" />
+        <span>Auto-record when joining / leaving a Meet call</span>
+      </label>
       <div class="actions">
         <button type="button" id="btnStart" class="btn primary">Start recording</button>
         <button type="button" id="btnStop" class="btn danger" disabled>Stop recording</button>
       </div>
       <p id="actionError" class="error" hidden></p>
+      <p id="transcribeProgress" class="progress" hidden></p>
     </section>
 
     <section class="card">

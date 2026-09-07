@@ -9,5 +9,5 @@
     "lib": ["ES2022", "DOM"],
     "types": ["chrome", "node"]
   },
-  "include": ["src/**/*.ts", "vite.config.ts", "vite.content.config.ts"]
+  "include": ["src/**/*.ts", "vite.config.ts", "vite.content.config.ts", "vitest.config.ts"]
 }

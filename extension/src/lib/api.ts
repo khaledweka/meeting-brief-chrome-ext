@@ -1,10 +1,8 @@
 import type { TranscriptResult } from "./types.js";
-
-/** Must match server default PORT (5055 avoids Windows blocking port 5000). */
-const DEFAULT_BASE = "http://127.0.0.1:5055";
+import { DEFAULT_SERVER_BASE, resolveServerBase } from "./settings.js";
 
 export function getServerBase(): string {
-  return DEFAULT_BASE;
+  return DEFAULT_SERVER_BASE;
 }
 
 export type HealthResult =
@@ -13,7 +11,8 @@ export type HealthResult =
 
 export async function fetchHealth(): Promise<HealthResult> {
   try {
-    const res = await fetch(`${getServerBase()}/health`, { method: "GET" });
+    const base = await resolveServerBase();
+    const res = await fetch(`${base}/health`, { method: "GET" });
     if (!res.ok) {
       return { reachable: false, ffmpeg: false };
     }
@@ -75,7 +74,8 @@ export async function transcribeRecording(
   if (opts?.apiKey) {
     form.append("api_key", opts.apiKey);
   }
-  const res = await fetch(`${getServerBase()}/transcribe`, {
+  const base = await resolveServerBase();
+  const res = await fetch(`${base}/transcribe`, {
     method: "POST",
     body: form,
   });

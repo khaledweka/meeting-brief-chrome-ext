@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MeetBrief Local — Options</title>
+    <link rel="stylesheet" href="./src/options/options.css" />
+  </head>
+  <body>
+    <main class="wrap">
+      <h1>MeetBrief Local — Options</h1>
+      <p class="sub">Defaults used by the popup and auto-record.</p>
+
+      <section class="card">
+        <label class="field" for="serverBaseUrl">
+          Transcription server URL
+          <input id="serverBaseUrl" type="url" placeholder="http://127.0.0.1:5055" />
+        </label>
+        <label class="field" for="defaultProvider">
+          Default transcription engine
+          <select id="defaultProvider">
+            <option value="whisper-local">Whisper (local, offline)</option>
+            <option value="lmstudio">LM Studio — Whisper + LLM correction</option>
+            <option value="gemini:gemini-2.5-flash">Gemini 2.5 Flash</option>
+            <option value="gemini:gemini-2.0-flash">Gemini 2.0 Flash</option>
+            <option value="openai">OpenAI Whisper API</option>
+          </select>
+        </label>
+        <label class="field" for="defaultLanguage">
+          Default transcript language
+          <select id="defaultLanguage">
+            <option value="">Auto-detect</option>
+            <option value="ar">Arabic</option>
+            <option value="en">English</option>
+          </select>
+        </label>
+        <label class="toggle">
+          <input type="checkbox" id="autoRecord" />
+          <span>Auto-record when joining / leaving a Meet call</span>
+        </label>
+        <label class="toggle">
+          <input type="checkbox" id="includeVideo" />
+          <span>Include video by default</span>
+        </label>
+        <div class="actions">
+          <button type="button" id="btnSave" class="btn primary">Save</button>
+          <button type="button" id="btnReset" class="btn ghost">Reset to defaults</button>
+        </div>
+        <p id="saveStatus" class="muted" hidden></p>
+      </section>
+    </main>
+    <script type="module" src="./src/options/options.ts"></script>
+  </body>
+</html>

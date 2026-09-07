@@ -21,6 +21,14 @@ body {
   color: var(--text);
 }
 
+.header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
 .header h1 {
   margin: 0 0 4px;
   font-size: 18px;
@@ -28,7 +36,7 @@ body {
 }
 
 .sub {
-  margin: 0 0 12px;
+  margin: 0;
   color: var(--muted);
   font-size: 12px;
 }
@@ -213,4 +221,20 @@ body {
 
 .hidden {
   display: none;
+}
+
+.progress {
+  color: #93c5fd;
+  margin: 8px 0 0;
+  font-size: 12px;
+}
+
+.export-select {
+  background: #111827;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 6px;
+  font-size: 12px;
+  max-width: 100px;
 }

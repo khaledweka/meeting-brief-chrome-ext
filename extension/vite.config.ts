@@ -16,6 +16,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         popup: fileURLToPath(new URL("popup.html", import.meta.url)),
+        options: fileURLToPath(new URL("options.html", import.meta.url)),
         offscreen: fileURLToPath(new URL("offscreen.html", import.meta.url)),
         download: fileURLToPath(new URL("download.html", import.meta.url)),
         setup: fileURLToPath(new URL("setup.html", import.meta.url)),

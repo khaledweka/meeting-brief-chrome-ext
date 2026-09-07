@@ -28,6 +28,15 @@ npm install
 npm run build
 ```
 
+Developer scripts:
+
+```bash
+npm run lint        # ESLint
+npm run format      # Prettier write
+npm test            # Vitest unit tests
+npm run typecheck   # tsc --noEmit
+```
+
 Then in Chrome or Edge:
 
 1. Open `chrome://extensions` (or `edge://extensions`)
@@ -76,8 +85,26 @@ Optional:
 
 - `WHISPER_MODEL` — default `base` (`tiny`, `small`, `medium`, `large` also supported)
 - `HOST` / `PORT` — default `127.0.0.1:5055` (port **5000** is often blocked on Windows; override with `PORT` if needed)
+- Copy [`server/.env.example`](../server/.env.example) to `server/.env` and fill in values (`.env` is gitignored)
 
-Start the API:
+### Extension options
+
+Open the extension **Options** page (popup → Settings, or right‑click the extension icon → Options) to configure:
+
+- Transcription server URL (default `http://127.0.0.1:5055`)
+- Default transcription engine and language
+- Auto-record when joining / leaving a Meet call
+- Include video by default
+
+### Auto-record
+
+Enable **Auto-record when joining / leaving a Meet call** in the popup or Options. When enabled, recording starts when the content script detects an in-call Meet UI and stops when you leave.
+
+### Transcript export
+
+After transcription, use the **Export…** dropdown on a recording to download **TXT**, **SRT**, **VTT**, or **JSON**.
+
+### Start the API
 
 ```bash
 python app.py

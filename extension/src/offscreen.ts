@@ -63,10 +63,6 @@ async function startRecording(
   currentMode = includeVideo ? "video" : "audio";
   startTs = performance.now();
 
-  // #region agent log
-  fetch('http://127.0.0.1:7310/ingest/102403f7-bf47-4ea6-953b-8e431b8bd6e5',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'b1b634'},body:JSON.stringify({sessionId:'b1b634',hypothesisId:'H-D',location:'offscreen.ts:startRecording-entry',message:'startRecording called',data:{micDeviceId,includeVideo,streamIdLen:streamId.length},timestamp:Date.now()})}).catch(()=>{});
-  // #endregion
-
   const constraints = buildTabCaptureConstraints(streamId, includeVideo);
   tabStream = await navigator.mediaDevices.getUserMedia(
     constraints as MediaStreamConstraints,
@@ -87,10 +83,6 @@ async function startRecording(
     tabMonitor.play().catch((e) => console.warn("[MeetingBrief] Tab monitor play failed:", e));
   }
 
-  // #region agent log
-  fetch('http://127.0.0.1:7310/ingest/102403f7-bf47-4ea6-953b-8e431b8bd6e5',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'b1b634'},body:JSON.stringify({sessionId:'b1b634',hypothesisId:'H-A H-B',location:'offscreen.ts:tabStream-tracks',message:'Tab stream tracks',data:{tabAudioCount:tabAudio.length,tabVideoCount:tabVideo.length,tabAudioTracks:tabAudio.map(t=>({id:t.id,muted:t.muted,enabled:t.enabled,readyState:t.readyState,label:t.label}))},timestamp:Date.now()})}).catch(()=>{});
-  // #endregion
-
   // If mic requested, mix tab audio + mic audio via AudioContext
   if (micDeviceId) {
     micStream = await getMicStream(micDeviceId);
@@ -100,54 +92,20 @@ async function startRecording(
     console.log("[MeetingBrief] Mixing tab audio + mic audio via AudioContext");
     audioCtx = new AudioContext();
     // Offscreen docs may start AudioContext suspended; force resume
-
-    // #region agent log
-    fetch('http://127.0.0.1:7310/ingest/102403f7-bf47-4ea6-953b-8e431b8bd6e5',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'b1b634'},body:JSON.stringify({sessionId:'b1b634',hypothesisId:'H-C',location:'offscreen.ts:audioCtx-before-resume',message:'AudioContext state before resume',data:{state:audioCtx.state},timestamp:Date.now()})}).catch(()=>{});
-    // #endregion
-
     if (audioCtx.state === "suspended") {
       await audioCtx.resume();
     }
     console.log(`[MeetingBrief] AudioContext state: ${audioCtx.state}`);
 
-    // #region agent log
-    fetch('http://127.0.0.1:7310/ingest/102403f7-bf47-4ea6-953b-8e431b8bd6e5',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'b1b634'},body:JSON.stringify({sessionId:'b1b634',hypothesisId:'H-C',location:'offscreen.ts:audioCtx-after-resume',message:'AudioContext state after resume',data:{state:audioCtx.state},timestamp:Date.now()})}).catch(()=>{});
-    // #endregion
-
     const dest = audioCtx.createMediaStreamDestination();
 
-    let _dbgTabAnalyser: AnalyserNode | null = null;
     if (tabAudio.length > 0) {
-      // #region agent log
-      fetch('http://127.0.0.1:7310/ingest/102403f7-bf47-4ea6-953b-8e431b8bd6e5',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'b1b634'},body:JSON.stringify({sessionId:'b1b634',hypothesisId:'H-E H-F',location:'offscreen.ts:tabSrc-connect',message:'Connecting tab audio source to destination',data:{tracksWrapped:tabAudio.length,usingOriginalStream:true},timestamp:Date.now()})}).catch(()=>{});
-      // #endregion
       const tabSrc = audioCtx.createMediaStreamSource(tabStream);
       tabSrc.connect(dest);
-      // #region agent log
-      _dbgTabAnalyser = audioCtx.createAnalyser();
-      tabSrc.connect(_dbgTabAnalyser);
-      // #endregion
-    } else {
-      // #region agent log
-      fetch('http://127.0.0.1:7310/ingest/102403f7-bf47-4ea6-953b-8e431b8bd6e5',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'b1b634'},body:JSON.stringify({sessionId:'b1b634',hypothesisId:'H-A',location:'offscreen.ts:tabSrc-skipped',message:'SKIPPED: tabAudio.length is 0, tab audio NOT connected',data:{tabAudioCount:tabAudio.length},timestamp:Date.now()})}).catch(()=>{});
-      // #endregion
     }
 
     const micSrc = audioCtx.createMediaStreamSource(micStream);
     micSrc.connect(dest);
-    // #region agent log
-    const _dbgMicAnalyser = audioCtx.createAnalyser();
-    micSrc.connect(_dbgMicAnalyser);
-    globalThis.setTimeout(() => {
-      const tData = new Float32Array(_dbgTabAnalyser ? _dbgTabAnalyser.fftSize : 0);
-      if (_dbgTabAnalyser) { _dbgTabAnalyser.getFloatTimeDomainData(tData); }
-      const tabRms = tData.length ? Math.sqrt(tData.reduce((s,v)=>s+v*v,0)/tData.length) : -1;
-      const mData = new Float32Array(_dbgMicAnalyser.fftSize);
-      _dbgMicAnalyser.getFloatTimeDomainData(mData);
-      const micRms = Math.sqrt(mData.reduce((s,v)=>s+v*v,0)/mData.length);
-      fetch('http://127.0.0.1:7310/ingest/102403f7-bf47-4ea6-953b-8e431b8bd6e5',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'b1b634'},body:JSON.stringify({sessionId:'b1b634',hypothesisId:'H-F H-G H-H',location:'offscreen.ts:analyser-sample-2s',message:'Audio RMS levels 2s after recording start',data:{tabRms:+tabRms.toFixed(6),micRms:+micRms.toFixed(6),tabSilent:tabRms<0.001,micSilent:micRms<0.001},timestamp:Date.now()})}).catch(()=>{});
-    }, 2000);
-    // #endregion
 
     const mixedAudio = dest.stream.getAudioTracks();
     console.log(`[MeetingBrief] Mixed audio tracks: ${mixedAudio.length}`);
@@ -248,9 +206,6 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   if (message?.type === MSG.OFFSCREEN_RECORD_STATE) {
     const recorderState = mediaRecorder?.state ?? "none";
     const isRecording = mediaRecorder != null && recorderState !== "inactive";
-    // #region agent log
-    fetch('http://127.0.0.1:7310/ingest/102403f7-bf47-4ea6-953b-8e431b8bd6e5',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'b1b634'},body:JSON.stringify({sessionId:'b1b634',hypothesisId:'H-L H-M H-N',location:'offscreen.ts:record-state',message:'Offscreen recorder state requested',data:{isRecording,recorderState,currentRecordingId,currentMode,chunks:chunks.length},timestamp:Date.now()})}).catch(()=>{});
-    // #endregion
     sendResponse({
       ok: true,
       recordingActive: isRecording,
